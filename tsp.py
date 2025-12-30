@@ -10,28 +10,26 @@ import pygame
 from benchmark_att48 import *
 
 
-# Define constant values
-# pygame
+# CONSTANTES DO PYGAME
 WIDTH, HEIGHT = 800, 400
 NODE_RADIUS = 10
 FPS = 30
 PLOT_X_OFFSET = 450
 
-# GA
+# CONSTANTES DO ALGORITMO GENÉTICO
 N_CITIES = 15
 POPULATION_SIZE = 100
 N_GENERATIONS = None
 MUTATION_PROBABILITY = 0.5
 
-# Define colors
+# DEFINIÇÃO DE CORES PARA INTERFACE GRÁFICA
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
 
-# Initialize problem
-# Using Random cities generation
+# GERAÇÃO DE CIDADES ALEATÓRIAS
 cities_locations = [(random.randint(NODE_RADIUS + PLOT_X_OFFSET, WIDTH - NODE_RADIUS), random.randint(NODE_RADIUS, HEIGHT - NODE_RADIUS))
                     for _ in range(N_CITIES)]
 
@@ -56,22 +54,22 @@ cities_locations = [(random.randint(NODE_RADIUS + PLOT_X_OFFSET, WIDTH - NODE_RA
 # ----- Using att48 benchmark
 
 
-# Initialize Pygame
+# INICIALIZANDO O PYGAME
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("TSP Solver using Pygame")
 clock = pygame.time.Clock()
-generation_counter = itertools.count(start=1)  # Start the counter at 1
+generation_counter = itertools.count(start=1)   #COMEÇANDO NA PRIMEIRA GERAÇÃO
 
 
-# Create Initial Population
+# CRIANDO POPULAÇÃO INICIAL
 # TODO:- use some heuristic like Nearest Neighbour our Convex Hull to initialize
 population = generate_random_population(cities_locations, POPULATION_SIZE)
 best_fitness_values = []
 best_solutions = []
 
 
-# Main game loop
+# LOOP PRINCIPAL
 running = True
 while running:
     for event in pygame.event.get():
@@ -106,7 +104,7 @@ while running:
 
     print(f"Generation {generation}: Best fitness = {round(best_fitness, 2)}")
 
-    new_population = [population[0]]  # Keep the best individual: ELITISM
+    new_population = [population[0]]  # ELITISMO - MANTÉM O MELHOR INDIVÍDUO
 
     while len(new_population) < POPULATION_SIZE:
 
@@ -114,10 +112,11 @@ while running:
         # simple selection based on first 10 best solutions
         # parent1, parent2 = random.choices(population[:10], k=2)
 
-        # solution based on fitness probability
+        # SELEÇÃO BASEADA NA PROBABILIDADE DE FITNESS
         probability = 1 / np.array(population_fitness)
         parent1, parent2 = random.choices(population, weights=probability, k=2)
 
+        #CRUZAMENTO PARA FORMAR NOVA GERAÇÃO
         # child1 = order_crossover(parent1, parent2)
         child1 = order_crossover(parent1, parent1)
 
@@ -133,6 +132,6 @@ while running:
 
 # TODO: save the best individual in a file if it is better than the one saved.
 
-# exit software
+# ENCERRA A APLICAÇÃO
 pygame.quit()
 sys.exit()
