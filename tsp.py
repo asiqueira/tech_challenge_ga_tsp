@@ -8,7 +8,18 @@ import sys
 import numpy as np
 import pygame
 from benchmark_att48 import *
+from dotenv import load_dotenv
+import os
+import google.generativeai as genai
 
+load_dotenv()  # carrega o .env
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not GEMINI_API_KEY:
+    raise RuntimeError("API Key do Gemini não encontrada!")
+
+genai.configure(api_key=GEMINI_API_KEY)
 
 # CONSTANTES DO PYGAME
 WIDTH, HEIGHT = 800, 400
