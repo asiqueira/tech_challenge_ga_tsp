@@ -1,3 +1,5 @@
 pygame
 numpy
 matplotlib
+python-dotenv
+google-generativeai
